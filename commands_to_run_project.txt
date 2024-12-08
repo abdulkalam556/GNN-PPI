@@ -1,0 +1,39 @@
+----embedding_generation-----------
+python embedding_generation.py --data_dir ../data --embedding_type prostt5
+python embedding_generation.py --data_dir ../data --embedding_type protbert
+----graph_construction-------------
+python graph_construction.py --data_dir ../data --graph_type onehot
+python graph_construction.py --data_dir ../data --graph_type physchem
+python graph_construction.py --data_dir ../data --graph_type expasy
+python graph_construction.py --data_dir ../data --graph_type protbert
+python graph_construction.py --data_dir ../data --graph_type prostt5
+----validate_graph-----------------
+python validate_graph.py --pdb_file ../data/raw/3nir.pdb --graph_file ../data/graphs/protbert/3nir.pt --inspection_output_path ./graph_inspection.txt --output_path ./graph_visualization.png
+----dataset_preparation-------------
+python dataset_preparation.py --data_dir ../data
+----train---------------------------
+python train.py --data_dir ../data/processed/ --graph_type protbert --model_name GCNN --output_dir ../output/
+CUDA_LAUNCH_BLOCKING=1 
+----sweep------------------------------
+python sweep.py --data_dir ../data/processed --model_name GCNN --graph_type protbert --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name GCNN --graph_type prostt5 --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name AttGNN --graph_type protbert --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name AttGNN --graph_type prostt5 --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name GCNN --graph_type onehot --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name GCNN --graph_type physchem --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name GCNN --graph_type expasy --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name AttGNN --graph_type onehot --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name AttGNN --graph_type physchem --output_dir ../output
+python sweep.py --data_dir ../data/processed --model_name AttGNN --graph_type expasy --output_dir ../output
+----test----------------------------------
+python test.py --graph_type onehot --model_type GCNN --sweep_id sweep-z114pndd
+python test.py --graph_type onehot --model_type AttGNN --sweep_id sweep-xxd3vvm2
+python test.py --graph_type physchem --model_type GCNN --sweep_id sweep-kq29oerl
+python test.py --graph_type physchem --model_type AttGNN --sweep_id sweep-vktgoogy
+python test.py --graph_type expasy --model_type GCNN --sweep_id sweep-ci4pgfil
+python test.py --graph_type expasy --model_type AttGNN --sweep_id sweep-datdl4j8
+python test.py --graph_type protbert --model_type GCNN --sweep_id sweep-rbtt85je
+python test.py --graph_type protbert --model_type AttGNN --sweep_id sweep-i1xgfb0p
+python test.py --graph_type prostt5 --model_type GCNN --sweep_id sweep-kxdq6tq3
+python test.py --graph_type prostt5 --model_type AttGNN --sweep_id sweep-kziqlc9o
+______________________________________________________________________________________________________________
